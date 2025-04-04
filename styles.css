@@ -1,7 +1,6 @@
 /* ===== GLOBAL STYLES ===== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
 :root {
     --primary-color: #4a6cf7;
     --secondary-color: #9333ea;
@@ -122,6 +121,45 @@ body.no-scroll {
     }
 }
 
+@keyframes loadingDots {
+    0%, 100% {
+        transform: scale(0.5);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rotate16 {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* ===== CURSOR FOLLOWER ===== */
 .cursor-follower {
     position: fixed;
@@ -147,6 +185,61 @@ body.no-scroll {
     z-index: 9998;
     transform: translateY(100%);
     pointer-events: none;
+}
+
+/* ===== Loading Screen ===== */
+.loading-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loader span {
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dots span {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    animation: loadingDots 1.5s infinite ease-in-out;
+}
+
+.dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dots span:nth-child(3) {
+    animation-delay: 0.4s;
 }
 
 /* ===== Header ===== */
@@ -512,24 +605,6 @@ nav ul {
     transition: var(--transition);
 }
 
-.video-container:hover .video-overlay {
-    opacity: 1;
-}
-
-.play-button {
-    width: 80px;
-    height: 80px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: var(--transition);
-    animation: pulse 2s infinite;
-}
 
 /* ===== Profile Section ===== */
 .profile {
@@ -593,13 +668,21 @@ nav ul {
     transform: scale(1.03);
 }
 
+/* ===== Bio Section ===== */
 .bio {
     flex: 1;
+    padding: 3rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .bio h2 {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
     position: relative;
     display: inline-block;
 }
@@ -607,11 +690,11 @@ nav ul {
 .bio h2::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -10px;
     left: 0;
-    width: 50px;
-    height: 3px;
-    background: var(--gradient-primary);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
 }
 
 .bio p {
@@ -630,14 +713,18 @@ nav ul {
     transform: translateY(0);
 }
 
+/* ===== Skills Section ===== */
+/* Grid layout for skills */
 .skills {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
+    margin: 20px 0;
 }
 
+/* Skill item styling */
 .skill-item {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-color);
     padding: 1.5rem;
     border-radius: var(--border-radius);
     box-shadow: 0 5px 15px var(--shadow-color);
@@ -645,8 +732,25 @@ nav ul {
     position: relative;
     overflow: hidden;
     z-index: 1;
+    opacity: 1; /* Show immediately */
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease forwards;
 }
 
+/* Staggered entry animations */
+.skill-item:nth-child(1) { animation-delay: 0.2s; }
+.skill-item:nth-child(2) { animation-delay: 0.4s; }
+.skill-item:nth-child(3) { animation-delay: 0.6s; }
+.skill-item:nth-child(4) { animation-delay: 0.8s; }
+.skill-item:nth-child(5) { animation-delay: 1s; }
+
+/* Keyframes for fadeIn animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Background text effect */
 .skill-item::before {
     content: attr(data-skill);
     position: absolute;
@@ -658,15 +762,18 @@ nav ul {
     z-index: -1;
 }
 
+/* Dark theme adjustment */
 .dark-theme .skill-item::before {
     color: rgba(255, 255, 255, 0.03);
 }
 
+/* Hover effect */
 .skill-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px var(--shadow-color);
 }
 
+/* Icon styling */
 .skill-item i {
     font-size: 2rem;
     margin-bottom: 1rem;
@@ -674,36 +781,55 @@ nav ul {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    margin-right: 10px;
+    width: 25px;
+    text-align: center;
 }
 
+/* Custom icon colors */
+.skill-item i.fa-html5 { color: #e34c26; }
+.skill-item i.fa-css3-alt { color: #2965f1; }
+.skill-item i.fa-js { color: #f7df1e; }
+.skill-item i.fa-react { color: #61dafb; }
+.skill-item i.fa-node-js { color: #68a063; }
+
+/* Skill name text */
 .skill-item span {
     display: block;
     font-weight: 600;
     margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
 }
 
-/* Your existing skill-bar CSS */
+/* Skill bar container */
 .skill-bar {
     height: 10px;
-    background-color: var(--skill-bar-bg);
+    background-color: var(--skill-bar-bg, #e0e0e0);
     border-radius: 5px;
     overflow: hidden;
-    position: relative; /* Added for percentage positioning */
+    position: relative;
+    margin-top: 10px;
 }
 
-/* Your existing skill-progress CSS with modifications */
+/* Progress indicator */
 .skill-progress {
     height: 100%;
-    background: var(--skill-progress-bg);
+    background: var(--skill-progress-bg, #4CAF50);
     border-radius: 5px;
-    transform: translateX(-100%);
-    transition: transform 1s ease, width 1s ease; /* Added width transition */
+    transform: translateX(0); /* Show from beginning */
     position: relative;
     overflow: hidden;
-    /* Width will be set per skill in HTML or by JavaScript */
+    animation: growWidth 1.5s ease-out forwards;
+    width: 0; /* Start at 0 width */
 }
 
-/* Add this new CSS for the percentage display */
+/* Animation to grow the width */
+@keyframes growWidth {
+    to { width: var(--skill-width, 90%); }
+}
+
+/* Percentage indicator */
 .skill-percentage {
     position: absolute;
     right: 0;
@@ -713,12 +839,33 @@ nav ul {
     color: var(--text-color);
 }
 
-/* Skill level classes - add these */
-.skill-beginner .skill-progress { width: 25%; }
-.skill-intermediate .skill-progress { width: 50%; }
-.skill-advanced .skill-progress { width: 75%; }
-.skill-expert .skill-progress { width: 90%; }
+/* Custom colors for different skills */
+[data-skill="HTML"] .skill-progress {
+    background-color: #E44D26;
+    --skill-width: 95%;
+}
 
+[data-skill="CSS"] .skill-progress {
+    background-color: #264DE4;
+    --skill-width: 90%;
+}
+
+[data-skill="JavaScript"] .skill-progress {
+    background-color: #F7DF1E;
+    --skill-width: 85%;
+}
+
+[data-skill="React"] .skill-progress {
+    background-color: #61DAFB;
+    --skill-width: 80%;
+}
+
+[data-skill="Node.js"] .skill-progress {
+    background-color: #339933;
+    --skill-width: 75%;
+}
+
+/* Shine effect on progress bars */
 .skill-progress::after {
     content: '';
     position: absolute;
@@ -735,152 +882,103 @@ nav ul {
     animation: shine 2s infinite;
 }
 
-.skill-item.active .skill-progress {
-    transform: translateX(0);
+/* Shine animation keyframes */
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
-/* Bio Section Styling */
-.bio {
-    padding: 3rem 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .bio h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    color: #333;
+/* Shine animation keyframes */
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+/* ===== Featured Work Section ===== */
+.featured-work {
+    text-align: center;
+    margin: 50px 0;
+    padding: 5rem 2rem;
+    background-color: var(--bg-secondary);
+}
+
+.carousel-container {
     position: relative;
-    display: inline-block;
-  }
-  
-  .bio h2:after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background: #4285f4;
-  }
-  
-  .bio p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 2rem;
-  }
-  
-  /* Skills Section */
-  .skills {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .skill-item {
-    padding: 1rem;
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .skill-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  }
-  
-  .skill-item i {
-    font-size: 1.8rem;
-    margin-right: 10px;
-    vertical-align: middle;
-  }
-  
-  .skill-item i.fa-html5 { color: #e34c26; }
-  .skill-item i.fa-css3-alt { color: #2965f1; }
-  .skill-item i.fa-js { color: #f7df1e; }
-  .skill-item i.fa-react { color: #61dafb; }
-  .skill-item i.fa-node-js { color: #68a063; }
-  
-  .skill-item span {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #444;
-  }
-  
-  .skill-bar {
-    margin-top: 10px;
-    height: 8px;
-    background-color: #e9ecef;
-    border-radius: 4px;
+    width: 100%;
     overflow: hidden;
-  }
-  
-  .skill-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-card {
+    flex: 0 0 auto;
+    width: 250px;
+    height: 300px;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    padding: 0; /* Removed extra padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Ensures image stays inside */
+}
+
+.carousel-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure images fit correctly */
+.carousel-card img {
+    width: 100%;
     height: 100%;
-    background: linear-gradient(to right, #4285f4, #34a853);
-    border-radius: 4px;
-    transition: width 1.5s ease-out;
-  }
-  
-  /* Reveal Animation */
-  .reveal-text {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: reveal 0.8s ease forwards;
-  }
-  
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Animation Delay for Skills */
-  .skill-item:nth-child(1) { animation: fadeIn 0.5s ease forwards 0.2s; }
-  .skill-item:nth-child(2) { animation: fadeIn 0.5s ease forwards 0.4s; }
-  .skill-item:nth-child(3) { animation: fadeIn 0.5s ease forwards 0.6s; }
-  .skill-item:nth-child(4) { animation: fadeIn 0.5s ease forwards 0.8s; }
-  .skill-item:nth-child(5) { animation: fadeIn 0.5s ease forwards 1s; }
-  
-  .skill-item {
-    opacity: 0;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .skills {
-      grid-template-columns: 1fr;
-    }
-    
-    .bio {
-      padding: 2rem 1rem;
-    }
-    
-    .bio h2 {
-      font-size: 2rem;
-    }
-  }
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.carousel-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Arrows */
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    border-radius: 50%;
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
+}
+
+.carousel-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
 
 /* ===== Contact Section ===== */
 .contact-section {
@@ -1275,3 +1373,4 @@ footer {
   .carousel-arrow:hover {
     background-color: rgba(0, 0, 0, 0.8);
   }
+

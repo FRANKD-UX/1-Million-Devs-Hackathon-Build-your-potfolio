@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="https://brandeps.com/icon-download/D/Dev-icon-vector-01.svg" alt="Logo" class="logo" width="50" height="50">
+            <img src="logo.svg" alt="Logo" class="logo" width="50" height="50">
             <div class="logo-particles"></div>
         </div>
 
@@ -51,39 +51,6 @@
             </div>
         </section>
         
-        <section class="featured-work">
-            <h2 class="section-title">Featured Work</h2>
-            <div class="carousel-container">
-                <button class="carousel-arrow left-arrow" onclick="moveCarousel('left')">&#10094;</button>
-                <div class="carousel">
-                  <div class="carousel-card">
-                    <div class="card-content">
-                      <h3>Card 1</h3>
-                      <p>Description here</p>
-                    </div>
-                  </div>
-                  <div class="carousel-card">
-                    <div class="card-content">
-                      <h3>Card 2</h3>
-                      <p>Description here</p>
-                    </div>
-                  </div>
-                  <div class="carousel-card">
-                    <div class="card-content">
-                      <h3>Card 3</h3>
-                      <p>Description here</p>
-                    </div>
-                  </div>
-                </div>
-                <button class="carousel-arrow right-arrow" onclick="moveCarousel('right')">&#10095;</button>
-              </div>
-              
-              <button class="carousel-arrow right-arrow" onclick="moveCarousel('right')">&#10095;</button>
-            </div>
-          </section>
-          
-        
-
         <section id="about" class="profile">
             <div class="profile-pic-container">
                 <img src="me.jpg" alt="Profile Picture" class="profile-pic">
@@ -92,6 +59,15 @@
             <div class="bio">
                 <h2 class="reveal-text">About Me</h2>
                 <p class="reveal-text">Passionate about web development, troubleshooting, and refining interactive design. Always eager to explore new coding challenges! Efficient in the following technologies:</p>
+                <h3>Education</h3>
+                <ul>
+                    <li>ALX Software Engineering</li>
+                    <li>AWS CCP</li>
+                    <li>Python Developer</li>
+                    <li>Google Cybersecurity Certificate (Coursera)</li>
+                    <li>Microsoft Cybersecurity Analyst Certificate (Coursera)</li>
+                    <li>Google IT Support Certificate (Coursera)</li>
+                </ul>
                 <div class="skills">
                     <div class="skill-item" data-skill="HTML">
                         <i class="fab fa-html5"></i>
@@ -122,21 +98,60 @@
             </div>
         </section>
 
+        <section class="featured-work">
+            <h2 class="section-title">Github repos</h2>
+            <div class="carousel-container">
+            <button class="carousel-arrow left-arrow" onclick="moveCarousel('left')">&#10094;</button>
+            
+            <div class="carousel">
+                <div class="carousel-card">
+                    <a href="https://github.com/FRANKD-UX/AirBnB_clone" target="_blank">
+                        <img src="Airbnb.png" alt="Project 1" class="project-image">
+                        <div class="card-content">
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-card">
+                    <a href="https://github.com/FRANKD-UX/VS-code-projects/tree/7c9af9a247d07ea7fa021b591934895bcbf2ee48/Hakcathons/Digital-Jam/%7BFrank%20Code%7D"
+                        target="_blank">
+                        <img src="Frankcode.png" alt="Project 2" class="project-image">
+                        <div class="card-content">
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-card">
+                    <a href="https://github.com/FRANKD-UX/Frankcode.github.io" target="_blank">
+                        <img src="page.png" alt="Project 3" class="project-image">
+                        <div class="card-content">
+                        </div>
+                    </a>
+                </div>
+                <div class="carousel-card">
+                    <a href="https://github.com/FRANKD-UX/simple_shell" target="_blank">
+                        <img src="Simpleshell.png" alt="Project 2" class="project-image">
+                        <div class="card-content">
+                        </div>
+                    </a>
+                </div>
+                </div>
+        
+            <button class="carousel-arrow right-arrow" onclick="moveCarousel('right')">&#10095;</button>
+            </div>
+        </section>
+    
+        
+    
         <section class="video-section">
             <h2 class="section-title">live Demo</h2>
             <div class="video-container">
-                <iframe width="60%" height="315" src="https://www.youtube.com/embed/y-OghdKUpUY?si=GVmTcVJgerC4gvMI" 
+                <p>Below is a demo of a massive project that im working on which will enable individuals who do not know how to code learn coding in a much easier way than ever before </p>
+                <iframe width="60%" height="600" src="https://www.youtube.com/embed/y-OghdKUpUY?si=GVmTcVJgerC4gvMI" 
                     title="YouTube video player" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     referrerpolicy="strict-origin-when-cross-origin" 
                     allowfullscreen>
                 </iframe>
-                <div class="video-overlay">
-                    <div class="play-button">
-                        <i class="fas fa-play"></i>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -208,6 +223,27 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const revealElements = document.querySelectorAll('.reveal-text');
+            
+            function checkReveal() {
+                revealElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('active');
+                    }
+                });
+            }
+            
+            // Run once on page load
+            checkReveal();
+            
+            // Run on scroll
+            window.addEventListener('scroll', checkReveal);
+        });
+    </script>
 </body>
 </html>
